@@ -1,23 +1,23 @@
 html{
     background-image: url("img/i2.jpg");
 
-background-repeat: no-repeat;
+    background-repeat: no-repeat;
 
-background-position: center center;
+    background-position: center center;
 
-background-attachment: fixed;
+    background-attachment: fixed;
 
--webkit-background-size: cover;
+    -webkit-background-size: cover;
 
--moz-background-size: cover;
+    -moz-background-size: cover;
 
--o-background-size: cover;
+    -o-background-size: cover;
 
-background-size: cover;
-}
-.content{
-    display: none;
-}
-.active{
-    display: block;
-}
+    background-size: cover;
+    }
+    .content{
+        display: none;
+    }
+    .active{
+        display: block;
+    }
