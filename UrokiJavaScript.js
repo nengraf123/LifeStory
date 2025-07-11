@@ -159,4 +159,40 @@ for (item2 of test5) {
 
 // работа с css
 const test6 = document.querySelector('h2');
-test6.classList.remove('red'); // убрали класс у первого h2
+test6.classList.remove('red'); // убрали класс у первого заголовка
+
+const test7 = document.querySelector('.z2');
+test7.classList.add('red'); // добавили класс к 2 заголовку
+
+const test8 = document.querySelector('#z3');
+test8.classList.toggle('green-text'); // добавляет класс или уберает в зависимости от того есть ли он или нет (удобная штукенция)
+
+const test9 = document.querySelector('h2');
+let result = test9.classList.contains('green-text'); // проверка есть ли у заголовка данный класс
+console.log('\n\n\n', result);
+
+if (result) // проверка на есть ли в h2 класс green-text
+{
+   console.log('hui'); 
+} else {
+    console.log('cleeen');
+}
+
+if (test9.classList.contains('green')) // проверка на есть ли в h2 класс green-text
+{
+   console.log('hui'); 
+} else {
+    console.log('cleeen');
+}
+console.log('\n\n\n')
+
+
+// работа с атрибутами
+
+const img1 = document.querySelector('#logo')
+let info0 = img1.getAttribute('src') // считываем атребут
+console.log(info0)
+
+img1.setAttribute('src', './img/i4.jpg') // 1 это что хотим измменить, 2 это что мы хотим записать в этот атребут
+img1.setAttribute('width', '400') // изменяем размер картинки
+// img1.setAttribute('height', '400') // изменяем размер картинки
