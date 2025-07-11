@@ -116,9 +116,47 @@ let egor = {
     adult: false,
     pirivet: function(name3) {
         console.log(this);
-        console.log(`hail gitler, ${name3}, сколько тебе лет, мне вот ${this.age}`);
+        console.log(`hail gitler, ${name3}, сколько тебе лет, мне вот ${this.age}\n\n\n`);
     }
 };
 egor.pirivet('huesos');
 
 // обьекты, обход циклом for(in), не путать с fot(of)
+for (let key in egor) {
+    console.log(key, `:`, egor[key]);
+};
+
+
+// классы. Конструкторы обьектов
+class Person {
+    constructor(userName_, age_, adult_) {
+        this.userName_ = userName_;
+        this.age_ = age_;
+        this.adult_ = adult_;
+    };
+};
+
+const person1 = new Person('vlad', 16, false);
+const person2 = new Person('pavel', 19, true);
+console.log(person1, person2);
+console.log(`\n\n\n\n`, person2.age_, `\n\n`);
+
+
+// выбор DOM элементов (как я понял парсинг сайта)
+console.log(document.querySelector('div')); // найти элемент
+console.log(document.querySelector('.dom-example')); // найти элемент по классу
+console.log(document.querySelector('#ss')); // найти элемент по id
+
+document.querySelector('h2').classList.add('red'); // присваеваем элементу класс 
+console.log(document.querySelector('h2'));
+
+let test5 = document.querySelectorAll('h2') // выбор всех элементов с таким наванием ему мы уже не можем приисвоить класс напрямую так что делаем это через for(of) который ниже 
+console.log(test5);
+for (item2 of test5) {
+    item2.classList.add('green-text')
+}
+
+
+// работа с css
+const test6 = document.querySelector('h2');
+test6.classList.remove('red'); // убрали класс у первого h2
