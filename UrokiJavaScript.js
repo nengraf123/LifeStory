@@ -195,4 +195,7 @@ console.log(info0)
 
 img1.setAttribute('src', './img/i4.jpg') // 1 это что хотим измменить, 2 это что мы хотим записать в этот атребут
 img1.setAttribute('width', '400') // изменяем размер картинки
-// img1.setAttribute('height', '400') // изменяем размер картинки
+img1.setAttribute('height', '400') // изменяем размер картинки
+img1.width = '550' // еще можем так изменить 
+console.log(img1.width)
+img1.removeAttribute('height') // удаляем атрибут
