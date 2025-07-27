@@ -1,9 +1,9 @@
-    .content{
-        display: none;
-    }
-    .active{
-        display: block;
-    }
+.content{
+    display: none;
+}
+.active{
+    display: block;
+}
 
 .red {
     border: 1px solid red;
@@ -12,3 +12,42 @@
 .green-text {
     color: green;
 }
+
+.but {
+    color: rgba(255,255,255,1);
+    background-color: rgba(0,0,0, 1);
+    width: 10%; /* Ширина */
+    height: 0%; /* Высота */
+    align-items: center;     /* выравнивание по вертикали */
+}
+
+.container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 40px;
+  background-color: black;
+  overflow: visible;
+  cursor: pointer;
+  transition: width 0.3s ease;
+}
+
+.container:hover {
+  width: 250px;
+}
+
+.content {
+  color: white;
+  padding: 15px;
+  transform: translateX(-210px);
+  opacity: 0;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  white-space: normal;
+}
+
+.container:hover .content {
+  transform: translateX(0);
+  opacity: 1;
+}
+
