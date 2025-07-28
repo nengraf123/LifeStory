@@ -1,1 +1,59 @@
-<a href="https://drive.google.com/file/u/2/d/1By3sEyBB46foqv89yC2yIBET8teXvnWJ/view?usp=drive_open">лимонные_девочки</a>
+<style>
+  #searchInput {
+    padding: 8px;
+    width: 300px;
+  }
+
+  #searchResults {
+    list-style: none;
+    padding: 0;
+  }
+
+  #searchResults li {
+    padding: 5px;
+    border-bottom: 1px solid #eee;
+  }
+
+  #searchResults li:hover {
+    background: #f5f5f5;
+  }
+</style>
+
+<input type="text" id="searchInput" placeholder="Поиск папок...">
+<ul id="searchResults"></ul>
+
+<script>
+  // Список доступных папок (можно заменить на запрос к серверу)
+  const folders = [
+    "лимонные_девочки",
+    "другие_папки",
+    "test",
+    "projects"
+  ];
+
+  document.getElementById('searchInput').addEventListener('input', function() {
+    const searchText = this.value.toLowerCase();
+    const resultsList = document.getElementById('searchResults');
+    resultsList.innerHTML = '';
+
+    if (searchText.length > 0) {
+      const matchedFolders = folders.filter(folder => 
+        folder.toLowerCase().includes(searchText)
+      );
+
+      matchedFolders.forEach(folder => {
+        const li = document.createElement('li');
+        li.textContent = folder;
+        li.style.cursor = 'pointer';
+        li.addEventListener('click', () => {
+          window.open(`${folder}/index.html`, '_self');
+        });
+        resultsList.appendChild(li);
+      });
+
+      if (matchedFolders.length === 0) {
+        resultsList.innerHTML = '<li>Ничего не найдено</li>';
+      }
+    }
+  });
+</script>
