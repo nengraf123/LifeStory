@@ -18,36 +18,36 @@
     background-color: rgba(0,0,0, 1);
     width: 10%; /* Ширина */
     height: 0%; /* Высота */
-    align-items: center;     /* выравнивание по вертикали */
+    align-items:center;     /* выравнивание по вертикали */
 }
 
-.container {
+.side-panel {
   position: fixed;
+  right: 0;
   top: 0;
-  left: 0;
   height: 100vh;
-  width: 40px;
-  background-color: black;
-  overflow: visible;
-  cursor: pointer;
+  width: 11px;
+  background: linear-gradient(90deg, #1a237e 0%, #000000 100%);
   transition: width 0.3s ease;
+  z-index: 1000;
+  overflow: hidden;
 }
 
-.container:hover {
+.side-panel:hover {
   width: 250px;
 }
 
-.content {
+.panel-content {
+  width: 250px;
+  height: 100%;
+  padding: 20px;
   color: white;
-  padding: 15px;
-  transform: translateX(-210px);
+  background: #1a237e; /* Синий фон панели */
+  box-sizing: border-box;
   opacity: 0;
-  transition: transform 0.3s ease, opacity 0.3s ease;
-  white-space: normal;
+  transition: opacity 0.2s ease 0.1s;
 }
 
-.container:hover .content {
-  transform: translateX(0);
+.side-panel:hover .panel-content {
   opacity: 1;
 }
-
