@@ -1,59 +1,488 @@
-<style>
-  #searchInput {
-    padding: 8px;
-    width: 300px;
-  }
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Кибер-поиск</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Rajdhani', 'Arial', sans-serif;
+        }
+        
+        body {
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(15, 10, 60, 0.8) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(30, 15, 90, 0.7) 0%, transparent 40%),
+                linear-gradient(135deg, #0a0820, #160c2e, #0d0725);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow-x: hidden;
+            position: relative;
+            animation: subtlePulse 20s infinite alternate;
+        }
+        
+        @keyframes subtlePulse {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 100% 100%; }
+        }
+        
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(45deg, 
+                    rgba(0, 80, 255, 0.03) 0%, 
+                    rgba(150, 0, 255, 0.02) 20%, 
+                    rgba(0, 200, 255, 0.03) 40%,
+                    rgba(100, 0, 255, 0.02) 60%,
+                    rgba(0, 100, 255, 0.03) 80%);
+            background-size: 400% 400%;
+            animation: neonFlow 15s ease infinite;
+            z-index: -1;
+        }
+        
+        @keyframes neonFlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .cyber-grid {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(12, 15, 41, 0.5) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(12, 15, 41, 0.5) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: -1;
+        }
+        
+        .search-container {
+            width: 100%;
+            max-width: 800px;
+            background: rgba(10, 12, 30, 0.5);
+            backdrop-filter: blur(12px);
+            border-radius: 20px;
+            border: 1px solid rgba(92, 119, 255, 0.2);
+            box-shadow: 
+                0 0 20px rgba(41, 98, 255, 0.2),
+                inset 0 0 15px rgba(0, 195, 255, 0.1);
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .search-container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(0, 247, 255, 0.05) 0%, rgba(0, 0, 0, 0) 70%);
+            animation: rotate 25s linear infinite;
+            z-index: -1;
+        }
+        
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        h1 {
+            color: #00f7ff;
+            text-align: center;
+            font-size: 3.2rem;
+            margin-bottom: 25px;
+            text-shadow: 0 0 8px rgba(0, 247, 255, 0.5);
+            letter-spacing: 2px;
+            font-weight: 600;
+            position: relative;
+            animation: textGlow 3s ease-in-out infinite alternate;
+        }
+        
+        @keyframes textGlow {
+            0% { text-shadow: 0 0 8px rgba(0, 247, 255, 0.5); }
+            100% { text-shadow: 0 0 15px rgba(0, 247, 255, 0.8), 0 0 30px rgba(0, 150, 255, 0.5); }
+        }
+        
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 180px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #00f7ff, transparent);
+        }
+        
+        .search-box {
+            position: relative;
+            margin: 35px 0;
+        }
+        
+        #searchInput {
+            width: 100%;
+            padding: 16px 25px;
+            padding-left: 60px;
+            font-size: 1.1rem;
+            background: rgba(5, 7, 25, 0.6);
+            border: 1px solid rgba(92, 119, 255, 0.4);
+            border-radius: 50px;
+            color: #b1f8ff;
+            outline: none;
+            transition: all 0.4s ease;
+            box-shadow: 
+                0 0 12px rgba(41, 98, 255, 0.25),
+                inset 0 0 8px rgba(0, 195, 255, 0.1);
+        }
+        
+        #searchInput:focus {
+            border-color: #00f7ff;
+            box-shadow: 
+                0 0 20px rgba(0, 247, 255, 0.4),
+                inset 0 0 12px rgba(0, 195, 255, 0.15);
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: 25px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #00f7ff;
+            font-size: 1.4rem;
+            text-shadow: 0 0 8px rgba(0, 247, 255, 0.6);
+        }
+        
+        .glow-text {
+            text-align: center;
+            color: rgba(200, 220, 255, 0.7);
+            margin-bottom: 30px;
+            font-size: 1.05rem;
+            text-shadow: 0 0 4px rgba(200, 220, 255, 0.3);
+            line-height: 1.6;
+        }
+        
+        #searchResults {
+            list-style: none;
+            padding: 0;
+            max-height: 400px;
+            overflow-y: auto;
+            margin-top: 25px;
+            scrollbar-width: thin;
+            scrollbar-color: #00f7ff rgba(5, 7, 25, 0.7);
+            transition: height 0.3s ease;
+        }
+        
+        #searchResults::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        #searchResults::-webkit-scrollbar-thumb {
+            background: #00f7ff;
+            border-radius: 3px;
+        }
+        
+        #searchResults li {
+            padding: 15px 20px;
+            margin: 10px 0;
+            background: rgba(5, 7, 25, 0.45);
+            border: 1px solid rgba(92, 119, 255, 0.25);
+            border-radius: 10px;
+            color: #d0f7ff;
+            font-size: 1.05rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            opacity: 0;
+            transform: translateY(10px);
+            animation: fadeInUp 0.4s ease forwards;
+        }
+        
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        #searchResults li::before {
+            content: '›';
+            margin-right: 12px;
+            color: #00f7ff;
+            font-weight: bold;
+            font-size: 1.4rem;
+            text-shadow: 0 0 5px rgba(0, 247, 255, 0.7);
+            transition: transform 0.3s ease;
+        }
+        
+        #searchResults li:hover {
+            background: rgba(92, 119, 255, 0.15);
+            transform: translateX(5px);
+            border-color: rgba(0, 247, 255, 0.5);
+            box-shadow: 0 0 12px rgba(0, 247, 255, 0.2);
+        }
+        
+        #searchResults li:hover::before {
+            transform: translateX(5px);
+        }
+        
+        #searchResults li:hover::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: #00f7ff;
+            box-shadow: 0 0 12px rgba(0, 247, 255, 0.6);
+        }
+        
+        .no-results {
+            text-align: center;
+            color: rgba(255, 120, 120, 0.8);
+            font-size: 1.1rem;
+            padding: 15px;
+            text-shadow: 0 0 4px rgba(255, 100, 100, 0.3);
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .floating-cubes {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+        }
+        
+        .cube {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            border: 1px solid rgba(0, 247, 255, 0.3);
+            opacity: 0.6;
+            animation: float 20s infinite linear;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.6; }
+            90% { opacity: 0.6; }
+            100% { transform: translateY(-800px) rotate(720deg); opacity: 0; }
+        }
+        
+        .neon-border {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 20px;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .neon-border::before,
+        .neon-border::after {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            border-radius: 22px;
+            background: linear-gradient(45deg, rgba(255, 0, 204, 0.1), rgba(0, 247, 255, 0.1), rgba(255, 0, 204, 0.1), rgba(0, 247, 255, 0.1));
+            background-size: 300% 300%;
+            z-index: -2;
+            animation: neon-glow 8s ease infinite;
+        }
+        
+        .neon-border::after {
+            filter: blur(10px);
+            opacity: 0.5;
+        }
+        
+        @keyframes neon-glow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: #00f7ff;
+            border-radius: 50%;
+            box-shadow: 0 0 8px #00f7ff, 0 0 15px #00f7ff;
+            animation: particle-move 12s infinite linear;
+        }
+        
+        @keyframes particle-move {
+            0% { transform: translateY(0) translateX(0); opacity: 0; }
+            10% { opacity: 0.4; }
+            90% { opacity: 0.4; }
+            100% { transform: translateY(-100vh) translateX(80px); opacity: 0; }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="cyber-grid"></div>
+    
+    <div class="search-container">
+        <div class="neon-border"></div>
+        
+        <h1>КИБЕР-ПОИСК</h1>
+        <p class="glow-text">Введите запрос для поиска по нейросетевому архиву.<br>Обнаруженные модули активируются по клику.</p>
+        
+        <div class="search-box">
+            <div class="search-icon">⌕</div>
+            <input type="text" id="searchInput" placeholder="Введите поисковый запрос...">
+        </div>
+        
+        <ul id="searchResults"></ul>
+        
+        <div class="floating-cubes" id="cubesContainer"></div>
+        <div class="particles" id="particlesContainer"></div>
+    </div>
 
-  #searchResults {
-    list-style: none;
-    padding: 0;
-  }
+    <script>
+        // Список доступных папок
+        const folders = [
+            "лимонные_девочки",
+        ];
 
-  #searchResults li {
-    padding: 5px;
-    border-bottom: 1px solid #eee;
-  }
-
-  #searchResults li:hover {
-    background: #f5f5f5;
-  }
-</style>
-
-<input type="text" id="searchInput" placeholder="Поиск папок...">
-<ul id="searchResults"></ul>
-
-<script>
-  // Список доступных папок (можно заменить на запрос к серверу)
-  const folders = [
-    "лимонные_девочки",
-    "другие_папки",
-    "test",
-    "projects"
-  ];
-
-  document.getElementById('searchInput').addEventListener('input', function() {
-    const searchText = this.value.toLowerCase();
-    const resultsList = document.getElementById('searchResults');
-    resultsList.innerHTML = '';
-
-    if (searchText.length > 0) {
-      const matchedFolders = folders.filter(folder => 
-        folder.toLowerCase().includes(searchText)
-      );
-
-      matchedFolders.forEach(folder => {
-        const li = document.createElement('li');
-        li.textContent = folder;
-        li.style.cursor = 'pointer';
-        li.addEventListener('click', () => {
-          window.open(`${folder}/index.html`, '_self');
+        // Инициализация элементов
+        const searchInput = document.getElementById('searchInput');
+        const resultsList = document.getElementById('searchResults');
+        const cubesContainer = document.getElementById('cubesContainer');
+        const particlesContainer = document.getElementById('particlesContainer');
+        
+        // Создание плавающих кубов
+        for (let i = 0; i < 15; i++) {
+            const cube = document.createElement('div');
+            cube.classList.add('cube');
+            cube.style.left = `${Math.random() * 100}%`;
+            cube.style.top = `${Math.random() * 100}%`;
+            cube.style.animationDuration = `${20 + Math.random() * 25}s`;
+            cube.style.animationDelay = `${Math.random() * 5}s`;
+            cubesContainer.appendChild(cube);
+        }
+        
+        // Создание частиц
+        for (let i = 0; i < 40; i++) {
+            createParticle();
+        }
+        
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+            particle.style.left = `${Math.random() * 100}%`;
+            particle.style.top = `${100 + Math.random() * 20}%`;
+            particle.style.animationDuration = `${8 + Math.random() * 12}s`;
+            particle.style.animationDelay = `${Math.random() * 3}s`;
+            particle.style.opacity = Math.random() * 0.4;
+            particlesContainer.appendChild(particle);
+            
+            particle.addEventListener('animationend', () => {
+                particle.remove();
+                createParticle();
+            });
+        }
+        
+        // Оптимизированный поиск с задержкой
+        let searchTimeout;
+        searchInput.addEventListener('input', function() {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
+                const searchText = this.value.toLowerCase().trim();
+                resultsList.innerHTML = '';
+                
+                if (searchText.length > 0) {
+                    const matchedFolders = folders.filter(folder => 
+                        folder.toLowerCase().includes(searchText)
+                    );
+                    
+                    if (matchedFolders.length > 0) {
+                        matchedFolders.forEach(folder => {
+                            const li = document.createElement('li');
+                            li.innerHTML = folder;
+                            li.addEventListener('click', () => {
+                                // Плавный переход
+                                document.body.style.opacity = '0.5';
+                                document.body.style.transform = 'scale(0.98)';
+                                document.body.style.transition = 'all 0.4s ease';
+                                
+                                setTimeout(() => {
+                                    window.location.href = `${folder}/index.html`;
+                                }, 400);
+                            });
+                            resultsList.appendChild(li);
+                        });
+                    } else {
+                        resultsList.innerHTML = '<li class="no-results">Модуль не обнаружен. Проверьте запрос...</li>';
+                    }
+                }
+            }, 200); // Задержка 200мс для оптимизации
         });
-        resultsList.appendChild(li);
-      });
-
-      if (matchedFolders.length === 0) {
-        resultsList.innerHTML = '<li>Ничего не найдено</li>';
-      }
-    }
-  });
-</script>
+        
+        // Фокус на поле ввода с анимацией
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                searchInput.focus();
+                document.body.style.opacity = '1';
+                document.body.style.transition = 'opacity 1.2s ease';
+            }, 300);
+        });
+        
+        // Случайные мерцания
+        setInterval(() => {
+            const cubes = document.querySelectorAll('.cube');
+            if (cubes.length > 0) {
+                const randomCube = cubes[Math.floor(Math.random() * cubes.length)];
+                randomCube.style.boxShadow = `0 0 10px rgba(0, 247, 255, ${0.2 + Math.random() * 0.5})`;
+                randomCube.style.opacity = `${0.4 + Math.random() * 0.5}`;
+                
+                setTimeout(() => {
+                    randomCube.style.boxShadow = '0 0 4px rgba(0, 247, 255, 0.3)';
+                    randomCube.style.opacity = '0.6';
+                }, 500);
+            }
+        }, 1200);
+    </script>
+</body>
+</html>
