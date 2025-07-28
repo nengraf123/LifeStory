@@ -1,0 +1,5 @@
+echo "exclude:" > _config.yml
+echo "  - node_modules" >> _config.yml
+echo "  - huinya/viteProject/node_modules" >> _config.yml
+git add _config.yml
+git commit -m "Exclude node_modules from processing"
