@@ -34,7 +34,7 @@
 }
 
 .side-panel:hover {
-  width: 250px;
+  width: 250px !important;
 }
 
 .panel-content {
