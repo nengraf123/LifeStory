@@ -48,95 +48,69 @@ document.body.innerHTML += `
     // gl.clearColor(0.1, 0.4, 0.4, 1.0);/*цвет*/ gl.clear(gl.COLOR_BUFFER_BIT);/*очистка буфера*/
 
 
-
-    // ============================================
-    // VERTEX SHADER - обрабатывает позиции
-    // ============================================
-    const vertexShaderSource = `
-        attribute vec2 a_position;
-        void main() {
-            gl_Position = vec4(a_position, 0.0, 1.0);
-        }
-    `;
-
-    // ============================================
-    // FRAGMENT SHADER - определяет цвет
-    // ============================================
-    const fragmentShaderSource = `
-        precision mediump float;
-        void main() {
-            // Простой черный цвет
-            vec3 col = vec3(0.0, 0.0, 0.0);
-            gl_FragColor = vec4(col, 1.0);
-        }
-    `;
-
-    // ============================================
-    // Компилируем шейдеры
-    // ============================================
-    function createShader(gl, type, source) {
-        const shader = gl.createShader(type);
-        gl.shaderSource(shader, source);
-        gl.compileShader(shader);
-      
-        if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-            console.error('Ошибка шейдера:', gl.getShaderInfoLog(shader));
-            gl.deleteShader(shader);
-            return null;
-        }
-        return shader;
+// ============================================
+// ШЕЙДЕРЫ
+// ============================================
+const vertexShaderSource = `
+    attribute vec2 a_position;
+    void main() {
+        gl_Position = vec4(a_position, 0.0, 1.0);
     }
+`;
 
-    const vertexShader = createShader(gl, gl.VERTEX_SHADER, vertexShaderSource);
-    const fragmentShader = createShader(gl, gl.FRAGMENT_SHADER, fragmentShaderSource);
-
-    // ============================================
-    // Создаем программу
-    // ============================================
-    function createProgram(gl, vertexShader, fragmentShader) {
-          const program = gl.createProgram();
-          gl.attachShader(program, vertexShader);
-          gl.attachShader(program, fragmentShader);
-          gl.linkProgram(program);
-      
-        if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
-            console.error('Ошибка программы:', gl.getProgramInfoLog(program));
-            gl.deleteProgram(program);
-            return null;
-        }
-        return program;
+const fragmentShaderSource = `
+    precision mediump float;
+    void main() {
+        gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0); // Черный цвет
     }
+`;
 
-    const program = createProgram(gl, vertexShader, fragmentShader);
+// ============================================
+// КОМПИЛЯЦИЯ И СОЗДАНИЕ ПРОГРАММЫ
+// ============================================
+function createShader(gl, type, source) {              // Создает шейдер
+    const shader = gl.createShader(type);              // Новый шейдер
+    gl.shaderSource(shader, source);                   // Загружаем код
+    gl.compileShader(shader);                          // Компилируем
+    return shader;
+}
 
-    // ============================================
-    // Создаем квадрат
-    // ============================================
-    const positionLocation = gl.getAttribLocation(program, 'a_position');
-    const positionBuffer = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+function createProgram(gl, vs, fs) {                   // Создает программу
+    const program = gl.createProgram();                // Новая программа
+    gl.attachShader(program, vs);                      // Прикрепляем vertex shader
+    gl.attachShader(program, fs);                      // Прикрепляем fragment shader
+    gl.linkProgram(program);                           // Связываем
+    return program;
+}
 
-    // Координаты квадрата (весь экран)
-    const positions = [
-       -1, -1,
-        1, -1,
-       -1,  1,
-       -1,  1,
-        1, -1,
-        1,  1,
-    ];
+const vs = createShader(gl, gl.VERTEX_SHADER, vertexShaderSource);       // Vertex shader
+const fs = createShader(gl, gl.FRAGMENT_SHADER, fragmentShaderSource);   // Fragment shader
+const program = createProgram(gl, vs, fs);                               // Программа
 
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
+// ============================================
+// СОЗДАЕМ КВАДРАТ
+// ============================================
+const positions = [                                    // Координаты треугольников
+   // Первый треугольник:
+    -0.5,  0.5,   // Вершина 1: x=-1, y=-1 (левый нижний угол)
+     0.5,  0.5,   // Вершина 2: x= 1, y=-1 (правый нижний угол)
+    -0.5, -0.5,   // Вершина 3: x=-1, y= 1  (левый верхний угол)
+                                                                
+    // Второй треугольник:
+     0.5,  0.5,   // Вершина 1: x=-1, y= 1  (левый верхний угол)
+    -0.5, -0.5,   // Вершина 2: x= 1, y=-1 (правый нижний угол)
+     0.5, -0.5    // Вершина 3: x= 1, y= 1  (правый верхний угол) 
+];
 
-    // ============================================
-    // Рисуем
-    // ============================================
+const buffer = gl.createBuffer();                      // Создаем буфер
+gl.bindBuffer(gl.ARRAY_BUFFER, buffer);               // Активируем буфер
+gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW); // Загружаем данные
 
-    gl.useProgram(program);
-    gl.enableVertexAttribArray(positionLocation);
-    gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
-    gl.vertexAttribPointer(positionLocation, 2, gl.FLOAT, false, 0, 0);
-    gl.drawArrays(gl.TRIANGLES, 0, 6);
-
-    console.log('✅ Черный квадрат нарисован!');
-
+// ============================================
+// РИСУЕМ
+// ============================================
+gl.useProgram(program);                                // Используем программу
+const loc = gl.getAttribLocation(program, 'a_position'); // Находим атрибут
+gl.enableVertexAttribArray(loc);                       // Включаем атрибут
+gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0); // Настраиваем атрибут (по 2 числа)
+gl.drawArrays(gl.TRIANGLES, 0, 6);                     // Рисуем 6 вершин (2 треугольника)
