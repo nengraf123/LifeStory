@@ -1,12 +1,27 @@
-<!DOCTYPE html>
-<html lang="en,ru,uk">
-<head>
-    <meta charset="UTF-8">
-    <title>hello</title>
+<!-- <!DOCTYPE html> -->
+<!-- <html lang="en,ru,uk"> -->
+<!-- <head> -->
+<!--     <meta charset="UTF-8"> -->
+<!--     <title>hello</title> -->
+<!-- </head> -->
+<!-- <body> -->
+<!-- </body> -->
+<!-- </html> -->
+<!-- <canvas id="glCanvas"></canvas> -->
+<!-- <!-1- <script src="./cube.js"></script> -1-> -->
+<!-- <script src="./main.js"></script> -->
+
+<!DOCTYPE html> <!-- объявление HTML5 -->
+<html lang="ru"> <!-- язык документа -->
+<head> <!-- head -->
+  <meta charset="utf-8"> <!-- кодировка -->
+  <meta name="viewport" content="width=device-width,initial-scale=1"> <!-- viewport -->
+  <title>WebGL куб</title> <!-- заголовок -->
+  <style> /* минимальные стили: canvas на весь экран */ html,body,#glCanvas{height:100%;margin:0;} canvas{display:block;width:100%;height:100%;} </style> <!-- стили -->
 </head>
-<body>
+<body> <!-- body -->
+  <canvas id="glCanvas"></canvas> <!-- canvas для WebGL -->
+  <script src="./main.js"></script> <!-- подключаем скрипт -->
 </body>
 </html>
-<canvas id="glCanvas"></canvas>
-<!-- <script src="./cube.js"></script> -->
-<script src="./main.js"></script>
+

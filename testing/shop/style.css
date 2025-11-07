@@ -1,0 +1,73 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: sans-serif;
+  background: #f5f5f5;
+}
+
+.shop_carts {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  padding: 24px;
+}
+
+.card {
+  /* Ширина — как колонка, высота по золотому сечению */
+  aspect-ratio: 1 / 1.618; /* ширина / высота → вертикальная "золотая" карточка */
+  background: #e6e6e6;
+  border-radius: 16px;
+  overflow: hidden;
+  text-decoration: none;
+  color: #64001e;
+  display: flex;
+  flex-direction: column;
+}
+
+.card img {
+  width: 100%;
+  height: 62%; /* ~1 / 1.618 ≈ 0.618 — изображение занимает "золотую" часть */
+  object-fit: cover;
+}
+
+.card .title {
+  height: 38%; /* остаток */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.1em;
+}
+/* .top { */
+/*     height: 100px; */
+/* } */
+/* .shop_carts { */
+/*     height: 800px; */ 
+/*     overflow: auto; /1* добавляем прокрутку, если много карточек *1/ */
+/*     display: grid; */
+/*     grid-template-columns: repeat(4, 1fr); /1* 4 колонки одинаковой ширины *1/ */
+/*     gap: 10px; /1* отступы между кнопками *1/ */
+/*     padding: 10px; */
+/* } */
+
+/* .carts { */
+/*   color: rgb(100, 0, 30); */
+/*   background-color: rgb(230, 230, 230); */
+/*   border: none; */
+/*   border-radius: 10px;  /1* Закругление углов *1/ */
+/*   aspect-ratio: 1 / 1; /1* делает кнопку квадратной (ширина = высота) *1/ */
+/*   display: flex; */
+/*   align-items: center; */
+/*   justify-content: center; */
+/* } */
+/* .carts_img { */
+/*   width: 80%; */
+/*   height: 80%; */
+/*   object-fit: cover; /1* сохраняет пропорции и заполняет контейнер *1/ */
+/*   border-radius: 10px; /1* сохраняем закругление как у кнопки *1/ */
+/* } */
